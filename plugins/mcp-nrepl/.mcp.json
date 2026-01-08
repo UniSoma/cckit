@@ -1,0 +1,7 @@
+{
+  "mcp-nrepl": {
+    "type": "stdio",
+    "command": "bb",
+    "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/mcp-nrepl.bb"]
+  }
+}

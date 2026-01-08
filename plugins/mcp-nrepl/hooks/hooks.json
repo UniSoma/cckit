@@ -1,0 +1,16 @@
+{
+  "description": "Check for babashka installation on session start",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/check-babashka.sh",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}

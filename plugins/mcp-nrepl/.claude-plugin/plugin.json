@@ -1,0 +1,10 @@
+{
+  "name": "mcp-nrepl",
+  "description": "MCP server for Clojure nREPL integration - evaluate Clojure code directly from Claude Code",
+  "version": "0.3.0",
+  "author": {
+    "name": "UniSoma"
+  },
+  "hooks": "./hooks/hooks.json",
+  "mcpServers": "./.mcp.json"
+}

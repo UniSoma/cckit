@@ -19,6 +19,16 @@
       "homepage": "https://github.com/boostvolt/claude-code-lsps"
     },
     {
+      "name": "mcp-nrepl",
+      "description": "MCP server for Clojure nREPL integration - evaluate Clojure code directly from Claude Code",
+      "version": "0.3.0",
+      "author": {
+        "name": "UniSoma"
+      },
+      "source": "./plugins/mcp-nrepl",
+      "category": "development"
+    },
+    {
       "name": "think",
       "description": "Mental models and decision-making frameworks for structured thinking",
       "version": "1.0.0",
