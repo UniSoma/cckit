@@ -48,10 +48,12 @@ Add this plugin to your Claude Code configuration:
 }
 ```
 
+## Attribution
+
+This plugin is vendored from [boostvolt/claude-code-lsps](https://github.com/boostvolt/claude-code-lsps).
+
+Original author: **boostvolt** (Jan Kott)
+
 ## License
 
-MIT
-
-## Credits
-
-Inspired by [claude-code-lsps](https://github.com/boostvolt/claude-code-lsps) by Jan Kott.
+See original repository for license terms.

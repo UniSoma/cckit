@@ -12,10 +12,22 @@
       "description": "Clojure language server integration for Claude Code with support for .clj, .cljs, .cljc, and .edn files",
       "version": "1.0.0",
       "author": {
-        "name": "UniSoma"
+        "name": "boostvolt"
       },
       "source": "./plugins/clojure-lsp",
-      "category": "development"
+      "category": "development",
+      "homepage": "https://github.com/boostvolt/claude-code-lsps"
+    },
+    {
+      "name": "think",
+      "description": "Mental models and decision-making frameworks for structured thinking",
+      "version": "1.0.0",
+      "author": {
+        "name": "glittercowboy"
+      },
+      "source": "./plugins/think",
+      "category": "productivity",
+      "homepage": "https://github.com/glittercowboy/taches-cc-resources"
     }
   ]
 }

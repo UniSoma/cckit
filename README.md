@@ -4,13 +4,19 @@ A Claude Code plugin marketplace created and maintained by UniSoma.
 
 ## What is CCKit?
 
-CCKit is a GitHub-based repository by UniSoma where developers can publish and discover Claude Code plugins. All plugins are hosted directly in this repository, making it easy to browse, contribute, and install.
+CCKit is a curated collection of Claude Code plugins maintained by UniSoma to simplify workflows for our team. This repository contains:
+
+- **Original plugins** - Created by UniSoma for our specific use cases
+- **Curated plugins** - Third-party plugins collected from the community that we find useful
+
+All plugins are vendored directly in this repository for convenience. Third-party plugins include proper attribution to their original authors and source repositories.
 
 ## Available Plugins
 
-| Plugin | Category | Description |
-|--------|----------|-------------|
-| [clojure-lsp](./plugins/clojure-lsp) | Development | Clojure language server integration |
+| Plugin | Category | Origin | Description |
+|--------|----------|--------|-------------|
+| [clojure-lsp](./plugins/clojure-lsp) | Development | [boostvolt](https://github.com/boostvolt/claude-code-lsps) | Clojure language server integration |
+| [think](./plugins/think) | Productivity | [glittercowboy](https://github.com/glittercowboy/taches-cc-resources) | Mental models and decision-making frameworks |
 
 ## Plugin Types
 

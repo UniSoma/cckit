@@ -3,7 +3,11 @@
   "description": "Clojure language server integration for Claude Code",
   "version": "1.0.0",
   "author": {
-    "name": "UniSoma"
+    "name": "boostvolt"
+  },
+  "source": {
+    "repository": "https://github.com/boostvolt/claude-code-lsps",
+    "path": "clojure-lsp"
   },
   "hooks": "./hooks/hooks.json",
   "lspServers": "./.lsp.json"

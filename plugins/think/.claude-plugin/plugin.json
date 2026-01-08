@@ -1,0 +1,9 @@
+{
+  "name": "think",
+  "description": "Mental models and decision-making frameworks for structured thinking",
+  "version": "1.0.0",
+  "author": {
+    "name": "glittercowboy"
+  },
+  "commands": "./commands"
+}
