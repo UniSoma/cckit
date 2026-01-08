@@ -1,0 +1,9 @@
+{
+  "name": "todo",
+  "version": "1.0.0",
+  "description": "Capture ideas mid-conversation without derailing your current work. Add structured todos with full context, then resume later with zero context loss.",
+  "author": {
+    "name": "TACHES",
+    "url": "https://github.com/glittercowboy/taches-cc-resources"
+  }
+}

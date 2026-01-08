@@ -28,6 +28,17 @@
       "source": "./plugins/think",
       "category": "productivity",
       "homepage": "https://github.com/glittercowboy/taches-cc-resources"
+    },
+    {
+      "name": "todo",
+      "description": "Capture ideas mid-conversation and resume later with full context",
+      "version": "1.0.0",
+      "author": {
+        "name": "TACHES"
+      },
+      "source": "./plugins/todo",
+      "category": "productivity",
+      "homepage": "https://github.com/glittercowboy/taches-cc-resources"
     }
   ]
 }

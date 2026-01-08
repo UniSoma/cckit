@@ -16,7 +16,8 @@ All plugins are vendored directly in this repository for convenience. Third-part
 | Plugin | Category | Origin | Description |
 |--------|----------|--------|-------------|
 | [clojure-lsp](./plugins/clojure-lsp) | Development | [boostvolt](https://github.com/boostvolt/claude-code-lsps) | Clojure language server integration |
-| [think](./plugins/think) | Productivity | [glittercowboy](https://github.com/glittercowboy/taches-cc-resources) | Mental models and decision-making frameworks |
+| [think](./plugins/think) | Productivity | [TACHES](https://github.com/glittercowboy/taches-cc-resources) | Mental models and decision-making frameworks |
+| [todo](./plugins/todo) | Productivity | [TACHES](https://github.com/glittercowboy/taches-cc-resources) | Capture ideas mid-conversation and resume later with full context |
 
 ## Plugin Types
 
