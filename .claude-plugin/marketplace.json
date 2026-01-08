@@ -1,0 +1,21 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "cckit",
+  "version": "1.0.0",
+  "description": "Claude Code plugin marketplace by UniSoma for discovering and sharing commands, agents, skills, and hooks",
+  "owner": {
+    "name": "UniSoma"
+  },
+  "plugins": [
+    {
+      "name": "clojure-lsp",
+      "description": "Clojure language server integration for Claude Code with support for .clj, .cljs, .cljc, and .edn files",
+      "version": "1.0.0",
+      "author": {
+        "name": "UniSoma"
+      },
+      "source": "./plugins/clojure-lsp",
+      "category": "development"
+    }
+  ]
+}
