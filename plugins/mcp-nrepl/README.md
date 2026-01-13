@@ -61,11 +61,34 @@ Add this plugin to your Claude Code configuration:
 
 ## Configuration
 
+### Port Resolution
+
+The plugin determines which nREPL port to connect to in this order:
+
+1. `--nrepl-port` flag (if configured in MCP args)
+2. `NREPL_PORT` environment variable
+3. `.nrepl-port` file in current directory (auto-created by most REPL tools)
+
 ### Default (reads .nrepl-port)
 
 The default configuration reads the nREPL port from a `.nrepl-port` file in your project directory (automatically created by most REPL tools).
 
-### Custom Port
+### Environment Variable
+
+Set the `NREPL_PORT` environment variable before starting Claude Code:
+
+```bash
+export NREPL_PORT=7888
+claude
+```
+
+Or for a single session:
+
+```bash
+NREPL_PORT=7888 claude
+```
+
+### Custom Port (MCP Override)
 
 To connect to a specific port, override the MCP configuration in your project's `.mcp.json`:
 
@@ -128,6 +151,7 @@ Ask Claude to use the `clojure-eval-guide` prompt for a comprehensive reference 
 
 - Ensure your nREPL server is running
 - Check that `.nrepl-port` file exists in your project root
+- Or set the `NREPL_PORT` environment variable
 - Or specify the port explicitly in your MCP configuration
 
 ### "Failed to connect to nREPL"

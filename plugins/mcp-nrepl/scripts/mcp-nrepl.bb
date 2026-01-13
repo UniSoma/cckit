@@ -96,6 +96,13 @@
       (do (log-error "Invalid port number: %s" provided-port)
         nil))
 
+    (System/getenv "NREPL_PORT")
+    (let [port-str (System/getenv "NREPL_PORT")
+          port (parse-port port-str)]
+      (or port
+        (do (log-error "Invalid NREPL_PORT environment variable: %s" port-str)
+          nil)))
+
     (fs/exists? ".nrepl-port")
     (try
       (let [port-str (slurp ".nrepl-port")
@@ -109,7 +116,7 @@
 
     :else
     (do
-      (log-error "No nREPL port specified. Use --nrepl-port <port> or create .nrepl-port file")
+      (log-error "No nREPL port specified. Use --nrepl-port <port>, set NREPL_PORT env var, or create .nrepl-port file")
       nil)))
 
 (defn connect-to-nrepl [port]
@@ -573,7 +580,11 @@ clj-nrepl-eval --port 7889 \"(+ 1 2 3)\"
         "Server Options:"
         "  --server: Start an embedded nREPL server (no external server needed)"
         "  --nrepl-port PORT: Connect to external nREPL server on specified port"
-        "  If neither is specified, reads from .nrepl-port file in current directory."]
+        ""
+        "Port Resolution (in order of priority):"
+        "  1. --nrepl-port flag"
+        "  2. NREPL_PORT environment variable"
+        "  3. .nrepl-port file in current directory"]
     (str/join \newline)))
 
 (defn error-msg [errors]
