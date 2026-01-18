@@ -29,13 +29,17 @@ CCKit is a Claude Code plugin marketplace maintained by UniSoma. It contains ori
   "name": "plugin-name",
   "version": "1.0.0",
   "description": "What this plugin does",
-  "author": { "name": "Author Name" },
-  "commands": "./commands",
-  "hooks": "./hooks/hooks.json",
-  "mcpServers": "./.mcp.json",
-  "lspServers": "./.lsp.json"
+  "author": { "name": "Author Name" }
 }
 ```
+
+**Auto-discovered paths** (do NOT include in manifest - causes duplicate loading errors):
+- `commands/` - Slash commands directory
+- `hooks/hooks.json` - Hook configuration
+- `.mcp.json` - MCP server configuration
+- `.lsp.json` - LSP server configuration
+
+Only specify these in the manifest if using non-standard locations.
 
 ### Command Format
 
