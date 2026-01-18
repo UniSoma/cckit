@@ -5,10 +5,6 @@
   "author": {
     "name": "boostvolt"
   },
-  "source": {
-    "repository": "https://github.com/boostvolt/claude-code-lsps",
-    "path": "clojure-lsp"
-  },
   "hooks": "./hooks/hooks.json",
   "lspServers": "./.lsp.json"
 }
