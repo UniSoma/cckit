@@ -21,7 +21,7 @@
     {
       "name": "mcp-nrepl",
       "description": "MCP server for Clojure nREPL integration - evaluate Clojure code directly from Claude Code",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "author": {
         "name": "UniSoma"
       },

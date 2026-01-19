@@ -252,9 +252,10 @@
 (defn collect-nrepl-responses
   "Collect nREPL responses until 'done' status or cancellation.
    Decodes byte arrays to strings once when reading.
+   Only collects responses matching the given nrepl-id.
    Returns {:responses [...] :cancelled? bool}.
    Throws if timeout exceeded or too many responses collected."
-  [cancelled?-atom]
+  [nrepl-id cancelled?-atom]
   (let [start-time (System/currentTimeMillis)]
     (loop [responses []]
       (let [elapsed (- (System/currentTimeMillis) start-time)
@@ -276,10 +277,15 @@
           ;; Use cancellation-aware reader with remaining time
           (if-let [raw-response (read-nrepl-response-with-cancel cancelled?-atom remaining-ms)]
             (let [response (decode-response raw-response)
+                  response-id (get response "id")
                   status (get response "status")]
-              (if (and status (some #(= "done" %) status))
-                {:responses (conj responses response) :cancelled? false}
-                (recur (conj responses response))))
+              ;; Only process responses matching our request ID
+              (if (= response-id nrepl-id)
+                (if (and status (some #(= "done" %) status))
+                  {:responses (conj responses response) :cancelled? false}
+                  (recur (conj responses response)))
+                ;; Skip responses from other requests (stale messages)
+                (recur responses)))
             ;; nil response means cancelled
             {:responses responses :cancelled? true}))))))
 
@@ -300,7 +306,7 @@
         {:nrepl-id nrepl-id :cancelled? cancelled?}))
     (try
       (when (send-nrepl-message msg)
-        (collect-nrepl-responses cancelled?))
+        (collect-nrepl-responses nrepl-id cancelled?))
       (finally
         ;; Unregister on completion
         (when mcp-request-id
