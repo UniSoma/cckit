@@ -29,6 +29,17 @@
       "category": "development"
     },
     {
+      "name": "research",
+      "description": "Structured research frameworks for systematic investigation and analysis",
+      "version": "1.0.0",
+      "author": {
+        "name": "glittercowboy"
+      },
+      "source": "./plugins/research",
+      "category": "productivity",
+      "homepage": "https://github.com/glittercowboy/taches-cc-resources"
+    },
+    {
       "name": "think",
       "description": "Mental models and decision-making frameworks for structured thinking",
       "version": "1.0.0",
