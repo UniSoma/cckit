@@ -16,6 +16,7 @@ All plugins are vendored directly in this repository for convenience. Third-part
 | Plugin | Category | Origin | Description |
 |--------|----------|--------|-------------|
 | [clojure-lsp](./plugins/clojure-lsp) | Development | [boostvolt](https://github.com/boostvolt/claude-code-lsps) | Clojure language server integration |
+| [investigate](./plugins/investigate) | Productivity | UniSoma | Adaptive multi-perspective research with iterative evaluation |
 | [mcp-nrepl](./plugins/mcp-nrepl) | Development | UniSoma | MCP server for Clojure nREPL integration |
 | [research](./plugins/research) | Productivity | [TACHES](https://github.com/glittercowboy/taches-cc-resources) | Structured research frameworks for systematic investigation |
 | [think](./plugins/think) | Productivity | [TACHES](https://github.com/glittercowboy/taches-cc-resources) | Mental models and decision-making frameworks |

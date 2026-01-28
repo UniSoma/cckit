@@ -40,6 +40,16 @@
       "homepage": "https://github.com/glittercowboy/taches-cc-resources"
     },
     {
+      "name": "investigate",
+      "description": "Adaptive multi-perspective research with iterative evaluation",
+      "version": "1.0.0",
+      "author": {
+        "name": "UniSoma"
+      },
+      "source": "./plugins/investigate",
+      "category": "productivity"
+    },
+    {
       "name": "think",
       "description": "Mental models and decision-making frameworks for structured thinking",
       "version": "1.0.0",
