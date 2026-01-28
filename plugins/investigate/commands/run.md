@@ -1,7 +1,7 @@
 ---
 description: Investigate a topic from multiple perspectives with adaptive evaluation
 argument-hint: [topic to investigate]
-allowed-tools: Read, Write, Bash, Glob, Grep, Task, TaskOutput, AskUserQuestion
+allowed-tools: Read, Write, Bash, Glob, Grep, Task, AskUserQuestion
 ---
 
 <objective>
@@ -119,15 +119,17 @@ Perspectives: {N} researchers ({count haiku} haiku, {count sonnet} sonnet)
 
 <parallel_spawning>
 
-Spawn all researchers using the Task tool with `run_in_background: true`.
+Spawn all researchers using synchronous Task calls. Multiple Task calls in a single message run in parallel automatically.
 
 For each perspective, choose the agent based on model tier:
-- `haiku` tier → use agent `researcher`
-- `sonnet` tier → use agent `researcher-deep`
+- `haiku` tier → use agent `investigate:researcher`
+- `sonnet` tier → use agent `investigate:researcher-deep`
 
 Generate the perspective slug from the name: lowercase, replace spaces/special chars with hyphens.
 
 **IMPORTANT**: Spawn ALL researchers in a SINGLE message with multiple Task tool calls for true parallelism.
+
+**CRITICAL**: Do NOT use `run_in_background: true`. Synchronous Task calls return only the agent's final message (`DONE: {path}`), not the full transcript. This keeps orchestrator context minimal.
 
 For each perspective, use this prompt format:
 
@@ -143,52 +145,50 @@ Execute research from the {perspective_name} perspective and write results to th
 ```
 
 Task tool parameters:
-- `subagent_type`: `"researcher"` (haiku) or `"researcher-deep"` (sonnet)
+- `subagent_type`: `"investigate:researcher"` (haiku) or `"investigate:researcher-deep"` (sonnet)
 - `description`: `"Research {perspective_name} perspective"`
-- `run_in_background`: `true`
+- Do NOT set `run_in_background` (defaults to false)
 
-Record each task ID and its corresponding perspective.
+All researchers run in parallel. Task blocks until all complete.
+**No polling.** No background agents. No TaskOutput loops.
 
 </parallel_spawning>
 
 <monitoring>
 
-After spawning, wait for completion using TaskOutput directly. Researchers return only `DONE: {path}`, so context impact is minimal.
+Synchronous Task calls block and return the agent's final message directly. No TaskOutput needed.
 
-**Monitoring flow**:
+**Result handling**:
 
-1. Immediately call TaskOutput for ALL researchers in parallel (single message with multiple TaskOutput calls):
-   - `block: true`
-   - `timeout: 600000` (10 minutes)
+Each Task call returns one of:
+- `DONE: {path}` — research completed successfully
+- Error message — research failed
 
-2. TaskOutput returns `DONE: {path}` as soon as each researcher finishes — no arbitrary waiting.
+Track results for each perspective:
+- **completed**: Task returned `DONE: {path}`
+- **failed**: Task returned error or unexpected output
 
-3. Track results for each perspective:
-   - **completed**: TaskOutput succeeded
-   - **timed_out**: TaskOutput reached 10-minute timeout
-
-**Retry logic**: For each timed-out perspective:
+**Retry logic**: For each failed perspective:
 
 1. First, check if output file exists with Glob: `{SESSION_DIR}/{perspective-slug}-raw.md`
-   - If file exists: mark as **completed** (task finished but TaskOutput timed out) — skip retry
+   - If file exists: mark as **completed** (agent wrote file but returned unexpected message)
    - If file missing: proceed with retry
 
 2. If retry needed:
-   - Spawn the same perspective again with the same parameters
-   - Wait with TaskOutput (block: true, timeout: 600000)
-   - If retry also times out AND file still missing after Glob check, mark as **degraded** permanently
+   - Spawn the same perspective again with the same parameters (synchronous Task)
+   - If retry also fails AND file still missing after Glob check, mark as **degraded** permanently
 
 **Minimum requirement**: At least 1 perspective must complete. If ALL fail after retries:
 - Report failure with session path
 - Suggest retrying with simpler topic or fewer perspectives
 - Stop execution (do not proceed to synthesis)
 
-After all monitoring completes, report status:
+After all research completes, report status:
 ```
 Research complete:
 - {Perspective 1}: completed
 - {Perspective 2}: completed
-- {Perspective 3}: degraded (timeout after retry)
+- {Perspective 3}: degraded (failed after retry)
 ```
 
 </monitoring>
@@ -207,7 +207,7 @@ Build the PERSPECTIVES JSON from monitoring results:
 
 ```
 Task tool:
-  subagent_type: "synthesizer"
+  subagent_type: "investigate:synthesizer"
   description: "Synthesize investigation findings"
   prompt: |
     SESSION_DIR: {SESSION_DIR}
@@ -235,7 +235,7 @@ Invoke the evaluator synchronously:
 
 ```
 Task tool:
-  subagent_type: "evaluator"
+  subagent_type: "investigate:evaluator"
   description: "Evaluate investigation quality (iteration 1)"
   prompt: |
     SESSION_DIR: {SESSION_DIR}
@@ -256,8 +256,8 @@ After evaluator completes, read EVALUATION.md:
 
 **If RE_RESEARCH and iteration < 3**:
 1. Parse RE_RESEARCH directives from EVALUATION.md (perspective definitions)
-2. Spawn new researchers for the gap-filling perspectives (same spawning pattern as initial)
-3. Wait for new researchers to complete (same pattern: parallel TaskOutput with 10-min timeout, Glob check before retry)
+2. Spawn new researchers for the gap-filling perspectives (same spawning pattern: synchronous parallel Task calls)
+3. Track results from Task returns (same pattern: check for `DONE:`, Glob check before retry)
 4. Add new perspectives to the PERSPECTIVES list
 5. Re-invoke synthesizer with updated PERSPECTIVES (include both original and new)
 6. Re-invoke evaluator with incremented ITERATION number
