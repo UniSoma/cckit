@@ -41,6 +41,7 @@ Think through:
    - Costs, risks, trade-offs
    - User/stakeholder impact
    - Strategic or long-term implications
+   - **Current state / existing implementation**: What exists in this codebase that's relevant? (Consider when topic uses words like "our", "my", "existing", "current", "migrate", "refactor", "integrate", or refers to specific project components)
 3. **Perspectives**: For each dimension that matters, define a research perspective:
    - **Name**: A clear, descriptive name (e.g., "Technical Feasibility", "Market Landscape", "Cost-Benefit Analysis")
    - **Focus**: What this perspective investigates
@@ -52,6 +53,8 @@ Think through:
 - Each perspective should be distinct (minimal overlap)
 - At least one perspective should challenge or stress-test the others
 - Select `sonnet` tier only for perspectives that genuinely need deeper analysis
+- If the topic relates to implementation decisions for this codebase, consider generating a "Current State Analysis" or "Existing Implementation" perspective that uses local file exploration (Glob, Grep, Read) instead of web research
+- A codebase-focused perspective should have focus like "Analyze existing patterns, dependencies, and architecture relevant to {topic}"
 
 </decomposition>
 

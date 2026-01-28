@@ -1,7 +1,7 @@
 ---
 description: Clarify investigation needs through adaptive questioning before running
 argument-hint: [rough idea or leave blank]
-allowed-tools: Read, AskUserQuestion, Skill
+allowed-tools: Read, Task, AskUserQuestion, Skill
 ---
 
 <objective>
@@ -47,6 +47,7 @@ Analyze INITIAL_INPUT to extract what's known and identify gaps.
 - **Who**: Stakeholders, users, or decision-makers involved
 - **Why**: The motivation or goal behind investigating
 - **Constraints**: Timeline, technical context, resources, existing commitments
+- **Existing code**: Relevant code in this codebase (if applicable)
 
 **Vagueness indicators** — flag the input as needing clarification if:
 - Missing scope: "databases" (which aspect? performance? cost? migration?)
@@ -54,6 +55,7 @@ Analyze INITIAL_INPUT to extract what's known and identify gaps.
 - Multiple interpretations: reasonable people would interpret differently
 - No clear goal: investigating for its own sake vs. to make a decision
 - Too broad: would require weeks of research to cover thoroughly
+- Implementation context missing: topic involves "our" system but no codebase context provided
 
 **Assessment output** (internal, not shown to user):
 ```
@@ -113,6 +115,21 @@ Options:
 - "Technical constraints" (description: "Existing stack, integrations, requirements")
 - "Timeline pressure" (description: "Need findings by a specific date")
 - "No major constraints" (description: "Relatively open exploration")
+
+### 6. Existing Implementation (if topic relates to this codebase)
+Only ask if the topic involves implementation decisions (migrations, refactoring, technology choices for this project):
+
+Question: "Is there existing code related to {topic} that I should understand?"
+Options:
+- "Yes, explore relevant code" (description: "Look at current implementation before refining the topic")
+- "I'll describe what exists" (description: "I'll tell you about the current state")
+- "Starting fresh" (description: "No existing implementation to consider")
+
+If "Yes, explore relevant code":
+- Use the Task tool with `subagent_type: "Explore"` to search the codebase
+- Prompt: "Find code related to {topic}. Look for relevant patterns, dependencies, and architecture. Summarize what exists and how it's structured."
+- The Explore agent returns a summary without polluting the main context
+- Incorporate the agent's findings into the refined topic context
 
 **Adaptive flow**:
 - If VAGUENESS_LEVEL is low: Ask 0-1 questions, move to gate evaluation
