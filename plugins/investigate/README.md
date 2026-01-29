@@ -21,6 +21,14 @@ If no topic is provided, the command will ask interactively.
 
 Use `quick` for fast, single-pass research when you don't need multiple perspectives or iterative refinement.
 
+### Answer Mode
+```
+/investigate:answer how does React Server Components work
+/investigate:answer compare Prisma vs Drizzle for type safety
+```
+
+Use `answer` for direct inline answers with no files written to disk. Adapts response length to question complexity.
+
 ### With Topic Refinement
 ```
 /investigate:ask
@@ -34,7 +42,8 @@ Use `ask` when you have a vague idea that needs clarification before investigati
 | Command | Purpose |
 |---------|---------|
 | `/investigate:run [topic]` | Full investigation with multiple perspectives and quality evaluation |
-| `/investigate:quick [topic]` | Fast single-pass research with minimal overhead |
+| `/investigate:quick [topic]` | Fast single-pass research with file output |
+| `/investigate:answer [question]` | Direct inline answer — adaptive detail, no files written |
 | `/investigate:ask [idea]` | Refine vague topics through questioning before investigating |
 
 ## How It Works
@@ -55,15 +64,22 @@ Use `ask` when you have a vague idea that needs clarification before investigati
 3. **Research** — single researcher agent investigates directly
 4. **Output** — summary displayed inline, full FINDINGS.md written to disk
 
-| Aspect | Full Mode | Quick Mode |
-|--------|-----------|------------|
-| Perspectives | 2-5 parallel | Single pass |
-| User confirmation | Yes | Only if vague |
-| Model selection | Per-perspective | Smart (haiku/sonnet) |
-| Researchers | Parallel agents | Single agent |
-| Evaluation loop | Up to 3 iterations | None |
-| Output | Multiple files | Single file + inline summary |
-| Use case | Deep analysis | Fast answers |
+### Answer Mode (`/investigate:answer`)
+
+1. **Clarify** (if needed) — asks only for extremely vague topics (single words)
+2. **Select model** — haiku for factual queries, sonnet for comparisons/tradeoffs
+3. **Research** — lightweight agent investigates directly
+4. **Output** — full answer returned inline, no files written
+
+| Aspect | Full Mode | Quick Mode | Answer Mode |
+|--------|-----------|------------|-------------|
+| Perspectives | 2-5 parallel | Single pass | Single pass |
+| User confirmation | Yes | Only if vague | Only if extremely vague |
+| Model selection | Per-perspective | Smart (haiku/sonnet) | Smart (haiku/sonnet) |
+| Researchers | Parallel agents | Single agent | Single agent |
+| Evaluation loop | Up to 3 iterations | None | None |
+| Output | Multiple files | Single file + inline summary | Inline only (no files) |
+| Use case | Deep analysis | Fast answers | Direct answers |
 
 ## Output
 
@@ -83,6 +99,10 @@ Output: `artifacts/investigate/{session-id}.md` (single file, no subdirectory)
 
 Quick mode also displays a 2-3 sentence summary inline after completion.
 
+### Answer Mode (`/investigate:answer`)
+
+No files written. The full answer is returned directly in the conversation.
+
 ## Architecture
 
 ```
@@ -101,10 +121,16 @@ Quick mode also displays a 2-3 sentence summary inline after completion.
          +-- quick-researcher (agent, model selected by orchestrator)
          |
          +-- source-evaluation (skill)
+
+/investigate:answer (command)
+         |
+         +-- answer-researcher (agent, model selected by orchestrator)
+         |
+         +-- source-evaluation (skill)
 ```
 
-- **3 commands** — `ask` for topic refinement, `run` for full orchestration, `quick` for fast research
-- **5 agents** — 4 for full mode (2 researchers, synthesizer, evaluator), 1 for quick mode (model selected dynamically)
+- **4 commands** — `ask` for topic refinement, `run` for full orchestration, `quick` for fast research, `answer` for direct inline answers
+- **6 agents** — 4 for full mode (2 researchers, synthesizer, evaluator), 1 for quick mode, 1 for answer mode (both model selected dynamically)
 - **2 skills** — source evaluation criteria and output format standards
 
 ## Key Design Decisions
@@ -120,3 +146,4 @@ Quick mode also displays a 2-3 sentence summary inline after completion.
 | Report organization | By theme (not by perspective) |
 | Failure handling | Retry once, then graceful degradation |
 | Quick mode | Smart clarification (vague topics only) + smart model selection |
+| Answer mode | No disk output, adaptive response length, minimal clarification |
