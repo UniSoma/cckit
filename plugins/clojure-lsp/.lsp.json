@@ -1,14 +1,12 @@
 {
-  "clojure": {
-    "command": "clojure-lsp",
-    "extensionToLanguage": {
-      ".clj": "clojure",
-      ".cljs": "clojurescript",
-      ".cljc": "clojure",
-      ".edn": "edn"
-    },
-    "loggingConfig": {
-      "args": ["--trace-level", "verbose"]
+    "clojure": {
+        "command": "clojure-lsp",
+        "args": [],
+        "extensionToLanguage": {
+            ".clj": "clojure",
+            ".cljs": "clojure",
+            ".cljc": "clojure",
+            ".edn": "clojure"
+        }
     }
-  }
 }
