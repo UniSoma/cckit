@@ -19,7 +19,7 @@ All plugins are vendored directly in this repository for convenience. Third-part
 | [investigate](./plugins/investigate) | Productivity | UniSoma | Adaptive multi-perspective research with iterative evaluation |
 | [mcp-nrepl](./plugins/mcp-nrepl) | Development | UniSoma | MCP server for Clojure nREPL integration |
 | [research](./plugins/research) | Productivity | [TACHES](https://github.com/glittercowboy/taches-cc-resources) | Structured research frameworks for systematic investigation |
-| [think](./plugins/think) | Productivity | [TACHES](https://github.com/glittercowboy/taches-cc-resources) | Mental models and decision-making frameworks |
+| [think](./plugins/think) | Productivity | UniSoma | Mental models and multi-model analysis with tension synthesis |
 | [todo](./plugins/todo) | Productivity | [TACHES](https://github.com/glittercowboy/taches-cc-resources) | Capture ideas mid-conversation and resume later with full context |
 
 ## Plugin Types
