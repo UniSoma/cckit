@@ -1,21 +1,11 @@
 # Clojure LSP Plugin
 
-Integrates [clojure-lsp](https://clojure-lsp.io/) with Claude Code for enhanced Clojure development support.
+Connects Claude Code to [clojure-lsp](https://clojure-lsp.io/) for code navigation, diagnostics, and refactoring in Clojure projects.
 
 ## Features
 
-- Language server integration for Clojure, ClojureScript, and EDN files
+- Language server integration for `.clj`, `.cljs`, `.cljc`, and `.edn` files
 - Automatic installation check on session start
-- Verbose logging for debugging
-
-## Supported File Extensions
-
-| Extension | Language |
-|-----------|----------|
-| `.clj` | Clojure |
-| `.cljs` | ClojureScript |
-| `.cljc` | Clojure (common) |
-| `.edn` | EDN |
 
 ## Prerequisites
 

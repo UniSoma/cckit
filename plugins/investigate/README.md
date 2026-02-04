@@ -1,6 +1,6 @@
 # Investigate Plugin
 
-Adaptive multi-perspective research with iterative evaluation. Decomposes questions into dynamic perspectives, researches them in parallel, synthesizes findings by theme, and evaluates quality with optional re-research.
+Investigates questions from multiple perspectives, synthesizes findings by theme, and re-researches gaps automatically.
 
 ## Usage
 
@@ -50,7 +50,7 @@ Use `ask` when you have a vague idea that needs clarification before investigati
 
 ### Full Mode (`/investigate:run`)
 
-1. **Decompose** — analyzes your topic and generates 2-5 research perspectives (no fixed personas, dynamically chosen from the query)
+1. **Decompose** — analyzes your topic and generates 2-5 research perspectives, chosen from the query (not fixed personas)
 2. **Confirm** — shows you the plan and lets you add, remove, or modify perspectives before starting
 3. **Research** — spawns parallel researcher agents, each investigating from their assigned perspective. Uses haiku for straightforward research, sonnet for complex analysis
 4. **Synthesize** — combines findings into a theme-organized REPORT.md (organized by theme, not by perspective)
@@ -130,20 +130,20 @@ No files written. The full answer is returned directly in the conversation.
 ```
 
 - **4 commands** — `ask` for topic refinement, `run` for full orchestration, `quick` for fast research, `answer` for direct inline answers
-- **6 agents** — 4 for full mode (2 researchers, synthesizer, evaluator), 1 for quick mode, 1 for answer mode (both model selected dynamically)
+- **6 agents** — 4 for full mode (2 researchers, synthesizer, evaluator), 1 for quick mode, 1 for answer mode. The orchestrator selects the model for quick and answer
 - **2 skills** — source evaluation criteria and output format standards
 
 ## Key Design Decisions
 
 | Decision | Choice |
 |----------|--------|
-| Perspectives | Dynamic from query context (not fixed personas) |
-| Decomposition | LLM-native (no frameworks) |
-| User control | Show and confirm perspectives before researching |
-| Iteration | Adaptive 1-3 passes based on evaluator verdict |
-| Evaluator | Actionable — ACCEPT or RE_RESEARCH with specific directives |
-| Model selection | haiku for factual research, sonnet for complex analysis |
-| Report organization | By theme (not by perspective) |
-| Failure handling | Retry once, then graceful degradation |
-| Quick mode | Smart clarification (vague topics only) + smart model selection |
-| Answer mode | No disk output, adaptive response length, minimal clarification |
+| Perspectives | Chosen from query context, not fixed personas |
+| Decomposition | LLM-native, no external frameworks |
+| User control | Confirm perspectives before research begins |
+| Iteration | 1-3 passes based on evaluator verdict |
+| Evaluator | ACCEPT or RE_RESEARCH with specific directives |
+| Model selection | Haiku for factual research, sonnet for complex analysis |
+| Report organization | By theme, not by perspective |
+| Failure handling | Retry once, then degrade gracefully |
+| Quick mode | Clarifies only vague topics; selects model automatically |
+| Answer mode | No disk output; adapts response length to question complexity |

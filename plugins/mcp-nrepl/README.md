@@ -1,14 +1,14 @@
 # MCP nREPL Plugin
 
-An MCP server that bridges Claude Code to a Clojure nREPL, enabling direct Clojure code evaluation.
+An MCP server that lets Claude Code evaluate Clojure code through an nREPL connection.
 
 ## Features
 
-- **eval-clojure tool** - Evaluate Clojure code directly from Claude Code
-- **Auto-reconnection** - Automatically reconnects if the nREPL connection is lost
-- **Multiple modes** - Connect to external nREPL or start embedded server
-- **Cancellation support** - Long-running evaluations can be cancelled
-- **Built-in guide** - Access the `clojure-eval-guide` prompt for usage tips
+- **eval-clojure tool** — Evaluate Clojure code directly from Claude Code
+- **Auto-reconnection** on dropped connections
+- **Multiple modes** — Connect to an external nREPL or start an embedded server
+- **Cancellation support** for long-running evaluations
+- **Built-in guide** — `clojure-eval-guide` prompt with common expressions and workflow tips
 
 ## Prerequisites
 
@@ -116,7 +116,7 @@ For quick experimentation without an external nREPL:
 }
 ```
 
-Note: The embedded server uses Babashka's nREPL, which has some limitations compared to full Clojure.
+Note: The embedded server uses Babashka's nREPL, which lacks some JVM Clojure features (e.g., Java interop, full `clojure.core` macros). See [Babashka differences](https://book.babashka.org/#differences-with-clojure).
 
 ## Usage
 

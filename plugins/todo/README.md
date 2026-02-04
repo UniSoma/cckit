@@ -1,8 +1,6 @@
 # Todo Plugin
 
-Capture ideas mid-conversation without derailing your current work.
-
-When you're deep in a conversation and spot a bug, think of a new feature, or notice something to refactor - but don't want to lose focus on what you're doing NOW - use `/todo:add` to capture it with full context. Later, `/todo:check` lets you resume exactly where that thought left off.
+Capture ideas mid-conversation without derailing your current work. Use `/todo:add` to save a thought with full context, then `/todo:check` later to resume where you left off.
 
 ## Commands
 
@@ -15,7 +13,7 @@ Captures the current conversation context as a structured todo item in `TO-DOS.m
 - File paths with line numbers
 - Technical details (error messages, root causes, constraints)
 - Timestamp and context title
-- Solution approach hints (optional)
+- Solution hints, if available
 
 **Usage:**
 - `/todo:add` - Infers todo from current conversation

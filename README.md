@@ -1,15 +1,11 @@
 # CCKit - Claude Code Plugin Marketplace
 
-A Claude Code plugin marketplace created and maintained by UniSoma.
+A curated collection of Claude Code plugins maintained by UniSoma. This repository contains:
 
-## What is CCKit?
+- **Original** — Built by UniSoma
+- **Curated** — Third-party plugins we use and maintain
 
-CCKit is a curated collection of Claude Code plugins maintained by UniSoma to simplify workflows for our team. This repository contains:
-
-- **Original plugins** - Created by UniSoma for our specific use cases
-- **Curated plugins** - Third-party plugins collected from the community that we find useful
-
-All plugins are vendored directly in this repository for convenience. Third-party plugins include proper attribution to their original authors and source repositories.
+All plugins are vendored directly in this repository. Third-party plugins include attribution to their original authors and source repositories.
 
 ## Available Plugins
 
@@ -24,13 +20,14 @@ All plugins are vendored directly in this repository for convenience. Third-part
 
 ## Plugin Types
 
-This marketplace supports all Claude Code plugin types:
+This marketplace supports these Claude Code plugin types:
 
-- **Commands** - Custom slash commands (e.g., `/hello`, `/deploy`)
-- **Agents** - Specialized AI agents for specific tasks
-- **Skills** - Reusable capabilities that agents can invoke
-- **Hooks** - Event handlers (SessionStart, PreToolUse, PostToolUse, Stop)
-- **LSP Servers** - Language server integrations for enhanced code intelligence
+- **Commands** — Custom slash commands (e.g., `/hello`, `/deploy`)
+- **Agents** — Specialized AI agents for specific tasks
+- **Skills** — Reusable capabilities that agents can invoke
+- **Hooks** — Event handlers (SessionStart, PreToolUse, PostToolUse, Stop)
+- **MCP Servers** — Model Context Protocol integrations for external tools
+- **LSP Servers** — Language server integrations for code intelligence
 
 ## Installation
 

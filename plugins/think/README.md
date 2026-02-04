@@ -1,6 +1,6 @@
 # Think Plugin
 
-Mental models and decision-making frameworks for structured thinking. Twelve individual model commands plus `/think:deep` for multi-model analysis with cross-model tension synthesis.
+Twelve mental model commands plus `/think:deep` for multi-model analysis with tension synthesis.
 
 ## Commands
 
@@ -15,7 +15,7 @@ Analyze a topic through 3-5 mental model lenses with cross-model tension synthes
 How it works:
 1. Classifies the problem and selects 3-5 relevant models (always including a contrarian lens)
 2. Runs all models in parallel as separate agents
-3. A synthesizer identifies where models **disagree** (tensions) and **agree** (convergences)
+3. A synthesizer identifies where models **disagree** and **agree**
 4. Returns key tensions and a bottom line inline; saves full analysis to `artifacts/think/`
 
 ### Individual Models
