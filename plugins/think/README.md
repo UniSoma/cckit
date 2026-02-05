@@ -1,12 +1,28 @@
 # Think Plugin
 
-Twelve mental model commands plus `/think:deep` for multi-model analysis with tension synthesis.
+Twelve mental model commands plus two multi-model analysis modes: `/think:fast` for inline results and `/think:deep` for full artifact-based analysis.
 
 ## Commands
 
-### `/think:deep` — Multi-Model Analysis
+### `/think:fast` — Fast Multi-Model Analysis
 
-Analyze a topic through 3-5 mental model lenses with cross-model tension synthesis.
+Apply 3-5 mental models in a single pass. No confirmation, no files — returns a consolidated analysis directly.
+
+```
+/think:fast Should we use a monorepo or polyrepo?
+```
+
+How it works:
+1. Classifies the problem and selects 3-5 models (always including a contrarian lens)
+2. Loads framework definitions and dispatches a single agent
+3. The agent applies each model, identifies tensions between them, and synthesizes
+4. Returns the full analysis inline — no files written to disk
+
+Use `/think:fast` when you want structured multi-model thinking without leaving the conversation. Output depth adapts to the topic: models that surface critical findings get more space; models that confirm others stay brief.
+
+### `/think:deep` — Deep Multi-Model Analysis
+
+Analyze a topic through 3-5 mental model lenses with cross-model tension synthesis. Saves all artifacts to disk.
 
 ```
 /think:deep Should we use a monorepo or polyrepo?
@@ -37,99 +53,58 @@ How it works:
 
 ## When to Use What
 
-**Use `/think:deep`** for problems with genuine tradeoffs — decisions between options, competing priorities, or plans worth stress-testing. The contrarian lens finds failure modes; the synthesis finds where frameworks disagree and why.
+**Use `/think:fast`** for inline multi-model analysis during a task. It runs in a single agent, writes no files, and returns the result directly. Good for decisions where you want structured thinking without switching context.
+
+**Use `/think:deep`** for problems worth a thorough written record. It runs models in parallel agents, saves individual lens analyses and a full synthesis to `artifacts/think/`. Good for high-stakes decisions you want to revisit later.
 
 **Use an individual model** when you already know which lens fits, or when you need one focused perspective mid-task.
 
+### Which model for my problem?
+
+| If you're... | Try these models |
+|--------------|-----------------|
+| Choosing between options | `opportunity-cost`, `10-10-10` |
+| Diagnosing a problem | `5-whys`, `first-principles` |
+| Prioritizing work | `eisenhower-matrix`, `pareto`, `one-thing` |
+| Stress-testing a plan | `inversion`, `second-order` |
+| Simplifying something | `via-negativa`, `occams-razor` |
+| Evaluating position | `swot` |
+
+When in doubt, use `/think:fast` or `/think:deep` — they select models automatically.
+
 ## Examples
 
-### Choosing between options
+### Fast inline analysis
 
 ```
-/think:deep Should we use a monorepo or polyrepo?
+/think:fast Should we cache at the application layer or use a CDN?
 ```
-Models: opportunity-cost, 10-10-10, first-principles, inversion
+
+### Deep analysis with artifacts
 
 ```
 /think:deep Microservices vs modular monolith for our 4-person team
 ```
-Models: first-principles, inversion, pareto, second-order
 
-### Prioritizing work
-
-```
-/think:deep We have 15 features requested and can only build 3 this quarter
-```
-Models: eisenhower-matrix, pareto, one-thing, via-negativa
-
-### Stress-testing strategy
-
-```
-/think:deep Our startup is deciding whether to pivot from B2B to B2C
-```
-Models: swot, opportunity-cost, 10-10-10, second-order, inversion
-
-### Diagnosing problems
-
-```
-/think:deep Why do our deployments keep failing on Fridays?
-```
-Models: 5-whys, pareto, inversion
-
-### Improving processes
-
-```
-/think:deep Our code review process is slowing us down but catching real bugs
-```
-Models: pareto, via-negativa, opportunity-cost, inversion
-
-### Individual model examples
-
-Each model asks one question. Pick the question that matches your problem.
+### Individual model mid-task
 
 ```
 /think:inversion We're launching a new payment system
 ```
-"What would guarantee this fails?" Surfaces risks that optimistic planning misses.
-
-```
-/think:first-principles We need a caching layer
-```
-"Do we actually need a cache, or are we solving the wrong problem?"
 
 ```
 /think:5-whys Users are abandoning checkout at the payment step
 ```
-"Why?" — asked five times, drilling past symptoms to root cause.
-
-```
-/think:via-negativa Our onboarding flow has 12 steps
-```
-"What can we remove?" Often stronger than adding more.
-
-```
-/think:pareto We're spending too much time on bug fixes
-```
-"Which 20% of causes produce 80% of bugs?"
-
-```
-/think:opportunity-cost We're considering rewriting the frontend in React
-```
-"What could we build instead with the same effort?"
-
-```
-/think:second-order We're adding a mandatory code review policy
-```
-"What happens after the immediate effect?" Catches unintended consequences.
-
-```
-/think:10-10-10 Should we take on this technical debt to ship faster?
-```
-"How will this look in 10 days, 10 months, 10 years?"
 
 ## Output
 
-`/think:deep` saves all artifacts to a session directory:
+### `/think:fast`
+
+Returns everything inline — model analyses, tensions, convergences, and a bottom line. No files created. Output depth adapts: models with critical findings expand; models that confirm others stay brief.
+
+### `/think:deep`
+
+Saves all artifacts to a session directory:
 
 ```
 artifacts/think/20260204-1430-monorepo-vs-polyrepo/
@@ -142,11 +117,13 @@ artifacts/think/20260204-1430-monorepo-vs-polyrepo/
 
 The inline response shows key tensions and a bottom line. Open the individual files for the full reasoning behind each lens.
 
-Individual `/think:*` commands respond directly in the conversation and save no files.
+### Individual commands
+
+Respond directly in the conversation. No files saved.
 
 ## Attribution
 
-The individual model commands originate from [glittercowboy/taches-cc-resources](https://github.com/glittercowboy/taches-cc-resources/tree/main/commands/consider). The `/think:deep` orchestrator and its supporting agents are original additions by UniSoma.
+The individual model commands originate from [glittercowboy/taches-cc-resources](https://github.com/glittercowboy/taches-cc-resources/tree/main/commands/consider). The `/think:deep` and `/think:fast` orchestrators and their supporting agents are original additions by UniSoma.
 
 ## License
 

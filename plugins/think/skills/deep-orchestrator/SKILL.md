@@ -275,17 +275,31 @@ Individual lenses: {comma-separated list of model-slug.md files}
 
 **Synthesizer fails**: Check Glob for ANALYSIS.md in session directory.
 - If ANALYSIS.md exists: proceed to presentation (agent wrote file but returned unexpected message)
-- If missing: Stop. Point user to individual lens files:
+- If missing: perform **inline fallback synthesis**:
+
+1. Read each completed lens file from SESSION_DIR
+2. For each lens, extract its core conclusion (first heading or first bold summary line)
+3. Present a degraded but useful inline synthesis:
 
 ```
-Synthesis failed, but individual lens analyses are available.
+Synthesis agent failed — producing fallback summary from individual lenses.
 
+{For each completed lens:}
+**{Model Name}**: {1-sentence core conclusion extracted from the lens file}
+
+**Agreements** (2+ models point the same direction):
+- {List shared conclusions}
+
+**Disagreements** (models contradict each other):
+- {List contradictions}
+
+⚠️ Automated fallback — run /think:deep again for full tension analysis.
+
+Individual lenses: {comma-separated list of completed model-slug.md files}
 Session: {SESSION_DIR}
-Individual lenses:
-- {list of completed model-slug.md files}
-
-You can read the individual analyses directly.
 ```
+
+This keeps the core value (cross-model comparison) even when the synthesizer fails. Use only Read and Glob — tools already available.
 
 **All lenses complete but synthesizer returns unexpected output**: Check Glob for ANALYSIS.md. If exists, proceed to presentation.
 </error_handling>
