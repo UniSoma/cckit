@@ -1,6 +1,6 @@
 ---
 name: output-standards
-description: Format requirements and quality standards for investigation outputs including raw findings, synthesized reports, and evaluation documents.
+description: Format requirements and quality standards for investigation outputs including raw findings and synthesized reports.
 user-invocable: false
 ---
 
@@ -19,11 +19,6 @@ Format requirements and quality standards for all investigation outputs, ensurin
 **Location**: `artifacts/investigate/{session-id}/REPORT.md`
 **Producer**: Synthesizer agent
 **Consumer**: User (primary output)
-
-### Evaluation (from evaluator)
-**Location**: `artifacts/investigate/{session-id}/EVALUATION.md`
-**Producer**: Evaluator agent
-**Consumer**: Orchestrator (iteration decision) + user (quality info)
 
 ## Required Sections: Raw Findings
 
@@ -169,53 +164,6 @@ the market analysis suggests Y."}
 **Weakest areas**: {Where gaps remain}
 ```
 
-## EVALUATION.md Format
-
-```markdown
-# Investigation Quality Evaluation
-
-**Session:** {session-id}
-**Evaluated:** {YYYY-MM-DD}
-**Topic:** {topic}
-**Iteration:** {N}
-
-## Verdict: {ACCEPT | RE_RESEARCH}
-
-{1-2 sentence verdict rationale}
-
-## Quality Scores
-
-| Dimension | Score | Assessment |
-|-----------|-------|------------|
-| Groundedness | {0.0/0.5/1.0} | {PASS/PARTIAL/FAIL} |
-| Coverage | {0.0/0.5/1.0} | {PASS/PARTIAL/FAIL} |
-| Synthesis Quality | {0.0/0.5/1.0} | {PASS/PARTIAL/FAIL} |
-
-**Aggregate:** {average}/1.0
-
-## Dimensional Analysis
-
-### Groundedness
-{Chain-of-thought reasoning with specific examples}
-
-### Coverage
-{Coverage map and gap analysis}
-
-### Synthesis Quality
-{Integration quality assessment}
-
-## RE_RESEARCH Directives (if verdict is RE_RESEARCH)
-
-{Only present when verdict is RE_RESEARCH}
-
-New perspectives to investigate:
-- **Name**: {perspective name}
-  **Focus**: {what to investigate}
-  **Sub-question**: {specific question}
-  **Model tier**: {haiku | sonnet}
-  **Rationale**: {why this fills a gap}
-```
-
 ## File Naming Conventions
 
 ### Session Directory
@@ -227,7 +175,6 @@ New perspectives to investigate:
 ### Files Within Session
 - `{perspective-slug}-raw.md` — raw researcher output
 - `REPORT.md` — synthesized report
-- `EVALUATION.md` — quality evaluation
 
 **Perspective slug**: kebab-case of perspective name (e.g., "market-analysis", "technical-feasibility")
 

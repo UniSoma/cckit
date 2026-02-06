@@ -1,6 +1,6 @@
 # Investigate Plugin
 
-Investigates questions from multiple perspectives, synthesizes findings by theme, and re-researches gaps automatically.
+Investigates questions from multiple perspectives and synthesizes findings by theme.
 
 ## Usage
 
@@ -41,7 +41,7 @@ Use `ask` when you have a vague idea that needs clarification before investigati
 
 | Command | Purpose |
 |---------|---------|
-| `/investigate:run [topic]` | Full investigation with multiple perspectives and quality evaluation |
+| `/investigate:run [topic]` | Full investigation with multiple perspectives and thematic synthesis |
 | `/investigate:quick [topic]` | Fast single-pass research with file output |
 | `/investigate:answer [question]` | Direct inline answer — adaptive detail, no files written |
 | `/investigate:ask [idea]` | Refine vague topics through questioning before investigating |
@@ -54,8 +54,6 @@ Use `ask` when you have a vague idea that needs clarification before investigati
 2. **Confirm** — shows you the plan and lets you add, remove, or modify perspectives before starting
 3. **Research** — spawns parallel researcher agents, each investigating from their assigned perspective. Uses haiku for straightforward research, sonnet for complex analysis
 4. **Synthesize** — combines findings into a theme-organized REPORT.md (organized by theme, not by perspective)
-5. **Evaluate** — assesses quality across three dimensions (groundedness, coverage, synthesis quality) and issues ACCEPT or RE_RESEARCH verdict
-6. **Iterate** — if gaps are found, spawns additional researchers to fill them, re-synthesizes, and re-evaluates (up to 3 iterations)
 
 ### Quick Mode (`/investigate:quick`)
 
@@ -77,7 +75,7 @@ Use `ask` when you have a vague idea that needs clarification before investigati
 | User confirmation | Yes | Only if vague | Only if extremely vague |
 | Model selection | Per-perspective | Smart (haiku/sonnet) | Smart (haiku/sonnet) |
 | Researchers | Parallel agents | Single agent | Single agent |
-| Evaluation loop | Up to 3 iterations | None | None |
+| Evaluation loop | None | None | None |
 | Output | Multiple files | Single file + inline summary | Inline only (no files) |
 | Use case | Deep analysis | Fast answers | Direct answers |
 
@@ -90,7 +88,6 @@ All artifacts are written to `artifacts/investigate/{session-id}/`:
 | File | Description |
 |------|-------------|
 | `REPORT.md` | Theme-organized synthesis (main output) |
-| `EVALUATION.md` | Quality assessment with scores |
 | `*-raw.md` | Individual perspective raw findings |
 
 ### Quick Mode (`/investigate:quick`)
@@ -111,7 +108,6 @@ No files written. The full answer is returned directly in the conversation.
                                     +-- researcher (agent, haiku)
                                     +-- researcher-deep (agent, sonnet)
                                     +-- synthesizer (agent, sonnet)
-                                    +-- evaluator (agent, sonnet)
                                     |
                                     +-- source-evaluation (skill)
                                     +-- output-standards (skill)
@@ -130,7 +126,7 @@ No files written. The full answer is returned directly in the conversation.
 ```
 
 - **4 commands** — `ask` for topic refinement, `run` for full orchestration, `quick` for fast research, `answer` for direct inline answers
-- **6 agents** — 4 for full mode (2 researchers, synthesizer, evaluator), 1 for quick mode, 1 for answer mode. The orchestrator selects the model for quick and answer
+- **5 agents** — 3 for full mode (2 researchers, synthesizer), 1 for quick mode, 1 for answer mode. The orchestrator selects the model for quick and answer
 - **2 skills** — source evaluation criteria and output format standards
 
 ## Key Design Decisions
@@ -140,8 +136,7 @@ No files written. The full answer is returned directly in the conversation.
 | Perspectives | Chosen from query context, not fixed personas |
 | Decomposition | LLM-native, no external frameworks |
 | User control | Confirm perspectives before research begins |
-| Iteration | 1-3 passes based on evaluator verdict |
-| Evaluator | ACCEPT or RE_RESEARCH with specific directives |
+| Synthesis | Single pass, theme-organized |
 | Model selection | Haiku for factual research, sonnet for complex analysis |
 | Report organization | By theme, not by perspective |
 | Failure handling | Retry once, then degrade gracefully |

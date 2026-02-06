@@ -1,11 +1,11 @@
 ---
-description: Investigate a topic from multiple perspectives with adaptive evaluation
+description: Investigate a topic from multiple perspectives with thematic synthesis
 argument-hint: [topic to investigate]
 allowed-tools: Read, Write, Bash, Glob, Grep, Task, AskUserQuestion
 ---
 
 <objective>
-Investigate $ARGUMENTS using dynamically generated perspectives, parallel research, thematic synthesis, and iterative quality evaluation.
+Investigate $ARGUMENTS using dynamically generated perspectives, parallel research, and thematic synthesis.
 
 This command is the single entry point for multi-perspective investigation. It orchestrates:
 1. LLM-native decomposition into perspectives
@@ -13,7 +13,6 @@ This command is the single entry point for multi-perspective investigation. It o
 3. Parallel researcher spawning with adaptive model selection
 4. Monitoring with retry and graceful degradation
 5. Theme-organized synthesis
-6. Evaluation with adaptive re-research (1-3 iterations)
 </objective>
 
 <input_handling>
@@ -225,55 +224,12 @@ Wait for synthesis to complete.
 
 </synthesis>
 
-<evaluation_loop>
-
-After synthesis, enter the evaluation-iteration loop.
-
-**Iteration 1**:
-
-Invoke the evaluator synchronously:
-
-```
-Task tool:
-  subagent_type: "investigate:evaluator"
-  description: "Evaluate investigation quality (iteration 1)"
-  prompt: |
-    SESSION_DIR: {SESSION_DIR}
-    TOPIC: {TOPIC}
-    CORE_QUESTION: {core_question}
-    PERSPECTIVES: {JSON array of all perspectives so far}
-    ITERATION: 1
-
-    Evaluate the quality of REPORT.md and raw outputs.
-    Write EVALUATION.md with verdict (ACCEPT or RE_RESEARCH).
-  run_in_background: false
-```
-
-After evaluator completes, read EVALUATION.md:
-- Use Grep to find the verdict line: search for `## Verdict:` in `{SESSION_DIR}/EVALUATION.md`
-
-**If ACCEPT**: Proceed to final report.
-
-**If RE_RESEARCH and iteration < 3**:
-1. Parse RE_RESEARCH directives from EVALUATION.md (perspective definitions)
-2. Spawn new researchers for the gap-filling perspectives (same spawning pattern: synchronous parallel Task calls)
-3. Track results from Task returns (same pattern: check for `DONE:`, Glob check before retry)
-4. Add new perspectives to the PERSPECTIVES list
-5. Re-invoke synthesizer with updated PERSPECTIVES (include both original and new)
-6. Re-invoke evaluator with incremented ITERATION number
-7. Check verdict again
-
-**Iteration 2-3**: Same pattern. If iteration reaches 3, evaluator will ACCEPT regardless.
-
-</evaluation_loop>
-
 <final_report>
 
-After ACCEPT verdict (or iteration 3 forced accept), present results:
+After synthesis completes, present results:
 
-Read the verdict and quality scores from EVALUATION.md using Grep:
-- Search for `**Aggregate:**` to get overall score
-- Search for `| Groundedness |` to get individual scores
+Read the Confidence Assessment from REPORT.md using Grep:
+- Search for `**Overall Confidence**:` to get the confidence level
 
 Present to user:
 
@@ -283,15 +239,11 @@ Investigation complete!
 Session: {SESSION_ID}
 Directory: {SESSION_DIR}
 
-Quality: {Aggregate score}/1.0
-- Groundedness: {PASS/PARTIAL/FAIL}
-- Coverage: {PASS/PARTIAL/FAIL}
-- Synthesis Quality: {PASS/PARTIAL/FAIL}
-Iterations: {iteration_count}
+Confidence: {Overall Confidence from REPORT.md}
+Perspectives: {N} completed, {M} degraded
 
 Files:
 - REPORT.md (main findings)
-- EVALUATION.md (quality assessment)
 - {perspective-1-slug}-raw.md
 - {perspective-2-slug}-raw.md
 - ...
@@ -330,19 +282,7 @@ Raw outputs:
 
 You can read the raw files directly for research findings.
 ```
-Stop execution. Do not proceed to evaluation.
-
-**Evaluator fails**:
-Report synthesis results without quality metrics:
-```
-Investigation complete (quality evaluation unavailable).
-
-Session: {SESSION_ID}
-REPORT.md: {SESSION_DIR}/REPORT.md
-
-Note: Quality evaluation could not be completed.
-Raw outputs and synthesis are available in the session directory.
-```
+Stop execution. Do not proceed.
 
 **Retry failure**: After a single retry failure, mark perspective as degraded and continue with remaining perspectives.
 
@@ -354,9 +294,6 @@ Raw outputs and synthesis are available in the session directory.
 - All researchers spawned in parallel (single message with multiple Task calls)
 - Failed researchers retried once, then gracefully degraded
 - Synthesis produces theme-organized REPORT.md (not per-perspective)
-- Evaluator issues ACCEPT or RE_RESEARCH with specific gap-filling directives
-- RE_RESEARCH triggers new researcher spawning + re-synthesis + re-evaluation
-- Maximum 3 iterations before forced acceptance
-- Final report shows session path, quality metrics, and file listing
+- Final report shows session path, confidence level, and file listing
 - All errors handled gracefully with useful information to the user
 </success_criteria>

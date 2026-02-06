@@ -7,11 +7,10 @@ allowed-tools: Read, Write, Bash, Glob, Grep, Task, AskUserQuestion
 <objective>
 Perform a fast, single-pass investigation of $ARGUMENTS with minimal overhead.
 
-Unlike the full `/investigate:run` which decomposes into multiple perspectives, confirms with the user, and iterates with evaluation, this command:
+Unlike the full `/investigate:run` which decomposes into multiple perspectives and confirms with the user, this command:
 - Researches directly (no decomposition into perspectives)
 - Asks for clarification only if topic is vague
 - Single researcher pass with smart model selection
-- No evaluation or re-research loop
 - Outputs a single markdown file + inline summary
 </objective>
 
